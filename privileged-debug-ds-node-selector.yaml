@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: privileged-debug-node-selector
+spec:
+  selector:
+    matchLabels:
+      name: privileged-debug-node-selector
+  template:
+    metadata:
+      labels:
+        name: privileged-debug-node-selector
+    spec:
+      nodeName: ip-10-50-12-189.eu-west-1.compute.internal
+      containers:
+      - name: busybox
+        image: busybox
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        stdin: true
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: rootvol
+          mountPath: /host
+      volumes:
+      - name: rootvol
+        hostPath:
+          path: /
+      hostNetwork: true
+      hostPID: true
+      restartPolicy: Always

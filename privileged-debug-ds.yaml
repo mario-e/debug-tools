@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: privileged-debug
+spec:
+  selector:
+    matchLabels:
+      name: privileged-debug
+  template:
+    metadata:
+      labels:
+        name: privileged-debug
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        stdin: true
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: rootvol
+          mountPath: /host
+      volumes:
+      - name: rootvol
+        hostPath:
+          path: /
+      hostNetwork: true
+      hostPID: true
+      restartPolicy: Always
