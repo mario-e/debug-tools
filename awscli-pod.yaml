@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: awscli
+  labels:
+    app: awscli
+spec:
+  serviceAccountName: sa-bla
+  containers:
+  - image: amazon/aws-cli
+    command: ["/usr/bin/tail", "-f", "/dev/null"]
+    imagePullPolicy: IfNotPresent
+    name: awscli
+  restartPolicy: Always
