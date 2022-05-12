@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testcon
+  labels:
+    app: testcon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testcon
+  template:
+    metadata:
+      labels:
+        app: testcon
+    spec:
+      #volumes:
+      #- name: rds-mysql-eu-west-1-ca-crt
+      #  secret:
+      #    secretName: rds-mysql-eu-west-1-ca-crt
+      containers:
+        - name: testcon
+          image: docker.io/mariodh/testcon:latest
+          #volumeMounts:
+          #- name: rds-mysql-eu-west-1-ca-crt
+          #  mountPath: "/some_dir/rds-ca-crts"
+          imagePullPolicy: IfNotPresent
+          command: ["/usr/bin/tail", "-f", "/dev/null"]
+          ports:
+            - containerPort: 22
+          resources:
+            requests:
+              cpu: 1m
+              memory: 1Mi
+            #limits:
+            #  cpu: 1m
+            #  memory: 1Mi
+      terminationGracePeriodSeconds: 0
+      #nodeName: ip-10-50-10-109.eu-west-1.compute.internal

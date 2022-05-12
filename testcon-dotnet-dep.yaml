@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testcon-dotnet
+  labels:
+    app: testcon-dotnet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testcon-dotnet
+  template:
+    metadata:
+      labels:
+        app: testcon-dotnet
+        logging-index: testcon-dotnet
+    spec:
+      #serviceAccountName: sa-bla
+      #volumes:
+      #- name: rds-mysql-eu-west-1-ca-crt
+      #  secret:
+      #    secretName: rds-mysql-eu-west-1-ca-crt
+      containers:
+        - name: testcon-dotnet
+          image: mcr.microsoft.com/dotnet/sdk:6.0
+          #volumeMounts:
+          #- name: rds-mysql-eu-west-1-ca-crt
+          #  mountPath: "/some_dir/rds-ca-crts"
+          imagePullPolicy: IfNotPresent
+          command: ["/usr/bin/tail", "-f", "/dev/null"]
+          ports:
+            - containerPort: 22
+          resources:
+            requests:
+              cpu: 1m
+              memory: 1Mi
+            #limits:
+            #  cpu: 1m
+            #  memory: 1Mi
+      terminationGracePeriodSeconds: 0
+      #nodeName: ip-10-50-10-109.eu-west-1.compute.internal
