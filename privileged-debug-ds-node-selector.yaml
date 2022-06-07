@@ -11,10 +11,10 @@ spec:
       labels:
         name: privileged-debug-node-selector
     spec:
-      nodeName: ip-10-50-12-189.eu-west-1.compute.internal
+      nodeName: ip-10-50-9-60.eu-west-1.compute.internal
       containers:
       - name: busybox
-        image: busybox
+        image: busybox:1.28
         resources:
           limits:
             cpu: 100m
